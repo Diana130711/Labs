@@ -1,0 +1,18 @@
+Universidad Técnica Nacional
+ITI-621 Tecnologías y Sistemas Web III
+Práctica: Firebase – Zodiaco
+
+Estudiante: Diana Gómez
+
+Repositorio GitHub (con acceso para el profesor):
+https://github.com/SU_USUARIO/zodiaco-firebase
+
+Sitio publicado (Firebase Hosting):
+https://SU-PROYECTO.web.app
+
+Puntos realizados:
+1. Registro de usuario con fecha de creación y fecha de último acceso (UI, JS y reglas).
+2. Registro de signo con elemento (Fuego, Tierra, Aire, Agua), astro y piedra preciosa (UI, JS y reglas).
+3. La tarjeta del signo muestra los datos nuevos, con colores según el elemento (CSS).
+4. Al seleccionar una tarjeta en lista.html se abre la ventana de edición con los datos del signo; las reglas permiten la modificación.
+5. Las páginas del zodiaco cierran la sesión después de 3 minutos de inactividad.

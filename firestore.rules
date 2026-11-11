@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ------------------------------------------------------------------
+    // Datos de los usuarios
+    //   - idemp, usuario, email
+    //   - fechaCreacion : fecha en que se creo la cuenta (la pone el servidor)
+    //   - ultAcceso     : fecha del ultimo acceso al sitio (la pone el servidor)
+    // ------------------------------------------------------------------
+    match /datosUsuarios/{docId} {
+      // Solo usuarios autenticados pueden consultar los datos
+      allow read: if request.auth != null;
+
+      // Al registrarse, el usuario solo puede crear SU documento,
+      // y las dos fechas deben ser la hora del servidor
+      allow create: if request.auth != null
+                    && request.resource.data.keys().hasOnly(['idemp', 'usuario', 'email', 'fechaCreacion', 'ultAcceso'])
+                    && request.resource.data.idemp == request.auth.uid
+                    && request.resource.data.usuario is string
+                    && request.resource.data.usuario.size() > 0
+                    && request.resource.data.email is string
+                    && request.resource.data.fechaCreacion == request.time
+                    && request.resource.data.ultAcceso == request.time;
+
+      // Al iniciar sesion, el usuario solo puede actualizar SU ultimo acceso
+      allow update: if request.auth != null
+                    && resource.data.idemp == request.auth.uid
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ultAcceso'])
+                    && request.resource.data.ultAcceso == request.time;
+
+      allow delete: if false;
+    }
+
+    // ------------------------------------------------------------------
+    // Datos de los signos zodiacales
+    //   - posic, signo, rango, url
+    //   - elemento : Fuego | Tierra | Aire | Agua
+    //   - astro    : astro celeste asociado
+    //   - piedra   : piedra preciosa
+    // ------------------------------------------------------------------
+    function signoValido(d) {
+      return d.keys().hasOnly(['posic', 'signo', 'rango', 'url', 'elemento', 'astro', 'piedra'])
+          && d.posic is int && d.posic >= 1 && d.posic <= 12
+          && d.signo is string && d.signo.size() > 0
+          && d.rango is string && d.rango.size() > 0
+          && d.url is string && d.url.size() > 0
+          && d.elemento in ['Fuego', 'Tierra', 'Aire', 'Agua']
+          && d.astro is string && d.astro.size() > 0
+          && d.piedra is string && d.piedra.size() > 0;
+    }
+
+    match /datosZodiaco/{docId} {
+      // Cualquiera puede ver los signos
+      allow read: if true;
+
+      // Solo usuarios autenticados pueden agregar o modificar, con datos validos
+      allow create: if request.auth != null && signoValido(request.resource.data);
+      allow update: if request.auth != null && signoValido(request.resource.data);
+
+      allow delete: if false;
+    }
+  }
+}

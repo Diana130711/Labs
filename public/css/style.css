@@ -1,0 +1,221 @@
+/* CSS Document */
+:root{
+	--primary: #110C0CFF;
+	--light: #FFFFFF;
+	--grey1: #EEEEEE;
+	--grey2: #F0F1F1;
+	--orange: #D6731D;
+	--lblue1: #559EE0;
+	--lblue2: #B4C5E5;
+
+	/* Colores de los elementos del zodiaco */
+	--fuego: #D9480F;
+	--tierra: #5C940D;
+	--aire: #1C7ED6;
+	--agua: #0B7285;
+}
+
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* Evita seleccionar textos de menús y tarjetas, pero no de los formularios */
+.header, .divAnuncio{
+	user-select: none;
+}
+
+.header .navbar {
+	background-color: rgba(255,255,255,0.5) !important;
+}
+
+body{
+	padding-top: 70px;
+	padding-bottom: 40px;
+	background-color: var(--grey2);
+}
+
+.formatDiv{
+	width: 250px;
+	margin-left: auto;
+	margin-right: auto;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* ------------------------------------------------------------------
+   Formularios (registrar, login, agregar, editar)
+   ------------------------------------------------------------------ */
+.formulario{
+	background-color: var(--light);
+	border: thin solid var(--lblue2);
+	border-radius: 8px;
+	box-shadow: 2px 2px 8px var(--lblue2);
+	margin: 15px auto;
+	max-width: 460px;
+	padding: 20px 25px;
+}
+
+.formulario h4{
+	margin-bottom: 15px;
+}
+
+.formulario label{
+	font-weight: 600;
+	margin-bottom: 3px;
+}
+
+.formulario .campo{
+	margin-bottom: 12px;
+}
+
+.formulario .campo input,
+.formulario .campo select{
+	width: 100%;
+}
+
+.vistaPrevia{
+	border: thin dashed var(--lblue1);
+	border-radius: 6px;
+	display: block;
+	height: 150px;
+	margin: 5px auto 12px auto;
+	object-fit: contain;
+	width: 150px;
+}
+
+/* ------------------------------------------------------------------
+   Tarjeta del signo zodiacal
+   ------------------------------------------------------------------ */
+.listaSignos{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.imgBlock{
+	height: 150px;
+	width: 150px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.imgBlock img{
+	height: 100%;
+	object-fit: contain;
+	width: 100%;
+}
+
+.divAnuncio{
+	background-color: var(--light);
+	border: thin solid var(--lblue1);
+	border-radius: 5px;
+	box-shadow: 2px 2px 5px var(--lblue2);
+	cursor: pointer;
+	margin: 8px;
+	padding: 8px 8px 10px 8px;
+	text-align: center;
+	transition: transform .15s ease, box-shadow .15s ease;
+	width: 190px;
+}
+
+.divAnuncio:hover,
+.divAnuncio:focus{
+	box-shadow: 4px 4px 12px var(--lblue1);
+	outline: none;
+	transform: translateY(-3px);
+}
+
+.divAnuncio .nombreSigno{
+	font-size: 1.15rem;
+	font-weight: 700;
+	margin-top: 4px;
+}
+
+.divAnuncio .rangoSigno{
+	color: #555;
+	font-size: .85rem;
+	margin-bottom: 6px;
+}
+
+.divAnuncio .datoSigno{
+	border-top: thin solid var(--grey1);
+	font-size: .85rem;
+	padding: 3px 0;
+	text-align: left;
+}
+
+.divAnuncio .datoSigno i{
+	color: var(--orange);
+	text-align: center;
+	width: 18px;
+}
+
+.divAnuncio .editarSigno{
+	color: var(--lblue1);
+	font-size: .8rem;
+	margin-top: 6px;
+}
+
+/* Etiqueta de color según el elemento */
+.badgeElemento{
+	border-radius: 10px;
+	color: var(--light);
+	display: inline-block;
+	font-size: .75rem;
+	font-weight: 600;
+	padding: 2px 10px;
+}
+
+.elem-Fuego{ background-color: var(--fuego); }
+.elem-Tierra{ background-color: var(--tierra); }
+.elem-Aire{ background-color: var(--aire); }
+.elem-Agua{ background-color: var(--agua); }
+
+/* Borde superior de la tarjeta con el color del elemento */
+.divAnuncio.borde-Fuego{ border-top: 5px solid var(--fuego); }
+.divAnuncio.borde-Tierra{ border-top: 5px solid var(--tierra); }
+.divAnuncio.borde-Aire{ border-top: 5px solid var(--aire); }
+.divAnuncio.borde-Agua{ border-top: 5px solid var(--agua); }
+
+/* ------------------------------------------------------------------
+   Inicio y lista de usuarios
+   ------------------------------------------------------------------ */
+.portada{
+	border-radius: 8px;
+	box-shadow: 2px 2px 8px var(--lblue2);
+	display: block;
+	margin: 10px auto;
+	max-height: 420px;
+	max-width: 100%;
+}
+
+.tarjetaUsuario{
+	background-color: var(--light);
+	border-left: 5px solid var(--orange);
+	border-radius: 6px;
+	margin: 10px auto;
+	max-width: 520px;
+	padding: 12px 18px;
+}
+
+/* ------------------------------------------------------------------
+   Aviso de cierre de sesión por inactividad
+   ------------------------------------------------------------------ */
+#avisoInactividad{
+	background-color: var(--primary);
+	border-radius: 8px;
+	bottom: 20px;
+	box-shadow: 0 4px 12px rgba(0,0,0,.3);
+	color: var(--light);
+	display: none;
+	max-width: 320px;
+	padding: 12px 16px;
+	position: fixed;
+	right: 20px;
+	z-index: 2000;
+}
+
+#avisoInactividad.visible{
+	display: block;
+}

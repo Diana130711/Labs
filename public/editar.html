@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+	<!-- Visualization environment -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	<!-- Control environment web application -->
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+		  rel="stylesheet"
+		  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+		  crossorigin="anonymous">
+
+	<!-- Font awesome decoration -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+	<!-- Custom decoration -->
+	<title>Zodiaco - Modificar signo</title>
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- References Firebase libraries -->
+	<!-- update the version number as needed -->
+	<script defer src="/__/firebase/13.2.0/firebase-app-compat.js"></script>
+	<script defer src="/__/firebase/13.2.0/firebase-auth-compat.js"></script>
+	<script defer src="/__/firebase/13.2.0/firebase-firestore-compat.js"></script>
+	<script defer src="/__/firebase/13.2.0/firebase-storage-compat.js"></script>
+
+	<!-- initilized firebase object -->
+	<script defer src="/__/firebase/init.js"></script>
+
+	<!-- uses the local emulators when the site runs on localhost -->
+	<script defer src="js/emulador.js"></script>
+
+	<!-- calling user authentication functions (validar, salir) -->
+	<script defer src="js/users/islogin.js"></script>
+
+	<script>
+		window.addEventListener('load', () => {
+			validar();
+			console.log('La página está completamente cargada');
+		});
+	</script>
+
+	<!-- closes the session after 3 minutes without activity -->
+	<script defer src="js/inactividad.js"></script>
+</head>
+<body class="container">
+	<header class="header row">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="index.html"><i class="fa-solid fa-star"></i> Zodiaco</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+						aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNavDropdown">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" href="index.html">Inicio</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink_01" role="button" data-bs-toggle="dropdown"
+							   aria-expanded="false">
+								Horóscopo
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink_01">
+								<li><a class="dropdown-item" href="lista.html">Listar Signos</a></li>
+								<li><a class="dropdown-item" href="agregar.html">Agregar Signo</a></li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink_02" role="button" data-bs-toggle="dropdown"
+							   aria-expanded="false">
+								Usuarios
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink_02">
+								<li><a class="dropdown-item" href="registrar.html">Registrar nuevo usuario</a></li>
+								<li><a class="dropdown-item" href="usuarios.html">Lista de usuarios</a></li>
+								<li><a class="dropdown-item" href="login.html">Iniciar sesión</a></li>
+							</ul>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#" onclick="salir(); return false;">Cerrar sesión</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<main class="row">
+		<div class="formulario">
+			<h4 class="formatHead">Modificar signo zodiacal</h4>
+			<div id="cargando" class="text-muted">Cargando datos del signo...</div>
+			<div id="formEditar" class="d-none">
+				<img id="imgActual" class="vistaPrevia" alt="Imagen del signo">
+
+				<div class="campo">
+					<label for="txtPosic">Posición (1 a 12):</label>
+					<input type="number" id="txtPosic" class="form-control" min="1" max="12" required>
+				</div>
+
+				<div class="campo">
+					<label for="txtSigno">Signo:</label>
+					<input type="text" id="txtSigno" class="form-control" maxlength="30" required>
+				</div>
+
+				<div class="campo">
+					<label for="txtRango">Rango de fechas:</label>
+					<input type="text" id="txtRango" class="form-control" maxlength="30" placeholder="Ej: Ene/20 - Feb/18" required>
+				</div>
+
+				<div class="campo">
+					<label for="cboElemento">Elemento:</label>
+					<select id="cboElemento" class="form-select" required>
+						<option value="">-- Seleccione --</option>
+						<option value="Fuego">Fuego</option>
+						<option value="Tierra">Tierra</option>
+						<option value="Aire">Aire</option>
+						<option value="Agua">Agua</option>
+					</select>
+				</div>
+
+				<div class="campo">
+					<label for="txtAstro">Astro celeste:</label>
+					<input type="text" id="txtAstro" class="form-control" maxlength="30" placeholder="Ej: Marte" required>
+				</div>
+
+				<div class="campo">
+					<label for="txtPiedra">Piedra preciosa:</label>
+					<input type="text" id="txtPiedra" class="form-control" maxlength="30" placeholder="Ej: Diamante" required>
+				</div>
+
+				<div class="campo">
+					<label for="txtArchi">Cambiar imagen (opcional):</label>
+					<input type="file" id="txtArchi" class="form-control" accept="image/*">
+				</div>
+
+				<div class="d-flex gap-2">
+					<a href="lista.html" class="btn btn-secondary w-50">Cancelar</a>
+					<input type="button" id="btnGuardar" class="btn btn-primary w-50" value="Guardar cambios">
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<footer class="row">
+
+	</footer>
+
+	<!-- Option 1: Bootstrap Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+			crossorigin="anonymous"></script>
+
+	<!-- shared functions for the zodiac data -->
+	<script defer src="js/zodiac/comun.js"></script>
+
+	<!-- load js code to edit a sign -->
+	<script defer src="js/zodiac/editsigno.js"></script>
+</body>
+</html>
